@@ -8,6 +8,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/budget";
 
 const app = express();
 
+// logs HTTP request, middleware for node.js
 app.use(logger("dev"));
 
 app.use(compression());
