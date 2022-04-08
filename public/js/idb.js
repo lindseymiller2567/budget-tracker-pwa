@@ -14,11 +14,13 @@ request.onupgradeneeded = function (event) {
 
 // upon a successful
 request.onsuccess = function (event) {
-    // when db is successfully created with its object store (from code above) or simply established a connection, save reference to db in global variable
+    // when db is successfully created with its object store (from code above) or
+    // simply established a connection, save reference to db in global variable
     db = event.target.result;
 
     // check if app is online, if yes run uploadTransaction() function to send all local db data to api
     if (navigator.onLine) {
+        console.log("app is online. running uploadTransaction fucntion.")
         uploadTransaction()
     }
 };
@@ -31,6 +33,7 @@ request.onerror = function (event) {
 // if we attempt to submit a new transaction and there is no internet connection
 // we are passing in record which is the data we were trying to 'POST'
 function saveRecord(record) {
+    console.log("no internet connection")
     // open a new transaction with the database with read and write permissions 
     const transaction = db.transaction(['new_transaction'], 'readwrite');
 
@@ -39,6 +42,7 @@ function saveRecord(record) {
 
     // add record to your store with add method
     transactionObjectStore.add(record);
+    console.log("saved record in db.")
 }
 
 function uploadTransaction() {

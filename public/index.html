@@ -46,6 +46,21 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="js/index.js"></script>
   <script src="./js/idb.js"></script>
+
+  <!-- service worker -->
+  <!-- <script>
+    (function () {
+      if ('serviceWorker' in navigator) { // checks if browser is capable of using service workers, if it is then the function proceeds
+        navigator.serviceWorker
+          .register('./service-worker.js') // must use realtive path
+          .then(() => console.log('Service Worker registered successfully.'))
+          .catch(error =>
+            console.log('Service Worker registration failed:', error)
+          )
+      }
+    })(); -->
+  </script>
+
 </body>
 
 </html>
