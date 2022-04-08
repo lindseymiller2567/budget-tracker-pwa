@@ -18,7 +18,7 @@ request.onsuccess = function (event) {
     db = event.target.result;
 
     // check if app is online, if yes run uploadTransaction() function to send all local db data to api
-    if (navigator.online) {
+    if (navigator.onLine) {
         uploadTransaction()
     }
 };
@@ -65,7 +65,7 @@ function uploadTransaction() {
                         throw new Error(serverResponse);
                     }
                     // open one more transaction
-                    const transaction = db.transaction(['new_pizza'], 'readwrite');
+                    const transaction = db.transaction(['new_transaction'], 'readwrite');
                     const transactionObjectStore = transaction.objectStore('new_transaction');
                     transactionObjectStore.clear();
 
