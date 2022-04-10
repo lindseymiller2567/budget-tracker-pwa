@@ -25,8 +25,28 @@ self.addEventListener("install", function (evt) {
             return cache.addAll(FILES_TO_CACHE);
         })
     );
+});
 
-    // self.skipWaiting();
+// Activate the service worker (remove old data from the cache)
+self.addEventListener('activate', function (evt) {
+    evt.waitUntil(
+        caches.keys().then(function (keyList) {
+
+            let cacheKeeplist = keyList.filter(function (key) {
+                return key.indexOf(APP_PREFIX);
+            })
+            // add current cache name to keeplist
+            cacheKeeplist.push(CACHE_NAME);
+
+            return Promise.all(
+                keyList.map(function (key, i) {
+                    if (cacheKeeplist.indexOf(key) === -1) {
+                        console.log('deleting cache : ' + keyList[i]);
+                        return caches.delete(keyList[i]);
+                    }
+                }));
+        })
+    );
 });
 
 // Respond with cached resources
@@ -44,40 +64,3 @@ self.addEventListener('fetch', function (evt) {
         })
     )
 });
-
-// Activate the service worker (remove old data from the cache)
-// self.addEventListener('activate', function (evt) {
-//     evt.waitUntil(
-//         caches.keys().then(function (keyList) {
-
-//             let cacheKeeplist = keyList.filter(function (key) {
-//                 return key.indexOf(APP_PREFIX);
-//             })
-//             // add current cache name to keeplist
-//             cacheKeeplist.push(CACHE_NAME);
-
-//             return Promise.all(
-//                 keyList.map(function (key, i) {
-//                     if (cacheKeeplist.indexOf(key) === -1) {
-//                         console.log('deleting cache : ' + keyList[i]);
-//                         return caches.delete(keyList[i]);
-//                     }
-//                 }));
-//         })
-//     );
-// });
-
-self.addEventListener('activate', function (evt) {
-    evt.respondWith(
-        fetch(evt.request).catch(function () {
-            return caches.match(evt.request).then(function (response) {
-                if (response) {
-                    return response;
-                } else if (evt.request.headers.get('accept').includes('text/html')) {
-                    // return the cached homepage for all requests for html pages
-                    return caches.match('/');
-                }
-            });
-        })
-    )
-})

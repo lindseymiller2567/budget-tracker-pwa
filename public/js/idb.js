@@ -80,7 +80,7 @@ function uploadTransaction() {
                 });
         }
     };
-
-    // listen for app coming back on online
-    window.addEventListener('online', uploadTransaction);
 };
+
+// listen for app coming back on online
+window.addEventListener('online', uploadTransaction);
