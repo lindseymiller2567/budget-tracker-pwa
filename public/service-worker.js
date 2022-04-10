@@ -49,18 +49,44 @@ self.addEventListener('activate', function (evt) {
     );
 });
 
-// Respond with cached resources
-self.addEventListener('fetch', function (evt) {
-    console.log('fetch request : ' + evt.request.url)
+self.addEventListener("fetch", function (evt) {
+    // listens for fetch req on a particular route, then respond with what you tell it to
+    // instead of responding with what your JS file says.
+    if (evt.request.url.includes('/api/')) {
+        evt.respondWith(
+            caches
+                .open(CACHE_NAME)
+                .then(cache => {
+                    return fetch(evt.request)
+                        .then(response => {
+                            if (response.status === 200) {
+                                cache.put(evt.request.url, response.clone());
+                            }
+
+                            return response;
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            return cache.match(evt.request);
+                        });
+                })
+                .catch(err => console.log(err))
+        );
+
+        return;
+    }
+
     evt.respondWith(
-        caches.match(evt.request).then(function (request) {
-            if (request) { // if cache is available, respond with cache
-                console.log('responding with cache : ' + evt.request.url)
-                return request
-            } else {       // if there are no cache, try fetching request
-                console.log('file is not cached, fetching : ' + evt.request.url)
-                return fetch(evt.request)
-            }
+        fetch(evt.request).catch(function () {
+            return caches.match(evt.request).then(function (response) {
+                if (response) {
+                    console.log("if response")
+                    return response;
+                } else if (evt.request.headers.get('accept').includes('text/html')) {
+                    return caches.match('/').then(response => response);
+                }
+            });
         })
-    )
-});
+    );
+}
+)

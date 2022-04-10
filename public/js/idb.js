@@ -42,7 +42,7 @@ function saveRecord(record) {
 
     // add record to your store with add method
     transactionObjectStore.add(record);
-    console.log("saved record in db.")
+    console.log("saved record in db: " + record)
 }
 
 function uploadTransaction() {
@@ -73,7 +73,7 @@ function uploadTransaction() {
                     const transactionObjectStore = transaction.objectStore('new_transaction');
                     transactionObjectStore.clear();
 
-                    alert('All saved transaction has been submitted.')
+                    alert('All saved transactions has been submitted.')
                 })
                 .catch(err => {
                     console.log(err);
