@@ -17,11 +17,13 @@ This application is deployed on Heroku. <br />
 * Mongoose
 
 ## Usage
-The screen shots below show how a user can download the app to their device. 
-
-<!-- <br />
-![Screenshot](./README_images/homepage.png) <br />
-<br /> -->
+How a user can download the app to their device: 
+<br />
+![Screenshot](./images_for_readme/install_budget_tracker_app.png) <br />
+<br />
+The app once it is download to the user's device: 
+<br/>
+![Screenshot](./images_for_readme/budget_tracker_app.png)
 
 ## Questions
 Feel free to reach out to me for any questions or comments. <br/>
