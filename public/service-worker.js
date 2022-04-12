@@ -88,16 +88,5 @@ self.addEventListener("fetch", function (evt) {
                 }
             })
         }));
-    // fetch(evt.request).catch(function () {
-    //     return caches.match(evt.request).then(function (response) {
-    //         if (response) {
-    //             console.log("if response")
-    //             return response;
-    //         } else if (evt.request.headers.get('accept').includes('text/html')) {
-    //             console.log("else if response")
-    //             return caches.match('/').then(response => response);
-    //         }
-    //     });
-    // })
 }
 )
